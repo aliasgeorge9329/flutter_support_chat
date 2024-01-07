@@ -136,7 +136,7 @@ class _FlutterSupportChatConversationState
             firestoreInstance: widget.firestoreInstance,
             id: widget.id,
             supporterID: widget.supporterID,
-            supportSection: widget.supportSection
+            supportSection: widget.supportSection,
             writeMessageText: widget.writeMessageText,
             onNewMessageCreated: widget.onNewMessageCreated,
             deviceInfos: widget.deviceInfos,
