@@ -10,6 +10,7 @@ class FlutterSupportChatMessageSend extends StatefulWidget {
   /// Ids can be Email or FirebaseUsersIds
   /// This Ids are able to view all Cases.
   final List<String> supporterID;
+  final String supportSection;
 
   /// `currentID` is a required ID.
   /// Id can be Email or FirebaseUsersId
@@ -34,6 +35,7 @@ class FlutterSupportChatMessageSend extends StatefulWidget {
 
   FlutterSupportChatMessageSend({
     required this.supporterID,
+    required this.supportSection,
     required this.currentID,
     required this.firestoreInstance,
     required this.id,
@@ -66,7 +68,7 @@ class _FlutterSupportChatMessageSendState
     SupportChat c = SupportChat.fromFireStore(
       await widget.firestoreInstance
           .collection(
-            'flutter_support_chat',
+             widget.supportSection,
           )
           .doc(widget.id)
           .get(),
@@ -82,7 +84,7 @@ class _FlutterSupportChatMessageSendState
     final SupportChat c = SupportChat.fromFireStore(
       await widget.firestoreInstance
           .collection(
-            'flutter_support_chat',
+             widget.supportSection,
           )
           .doc(widget.id)
           .get(),
@@ -100,7 +102,7 @@ class _FlutterSupportChatMessageSendState
         : SupportCaseState.waitingForSupporter;
     await c
         .update(widget.firestoreInstance.collection(
-      'flutter_support_chat',
+       widget.supportSection,
     ))
         .then((value) {
       sending = false;
