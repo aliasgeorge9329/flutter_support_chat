@@ -76,10 +76,8 @@ class _FlutterSupportChatConversationState
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: (b) {
-        if (b) widget.back();
-      },
+    return WillPopScope(
+      onWillPop: () => widget.back(),
       child: Stack(
         children: <Widget>[
           Positioned(
@@ -95,7 +93,7 @@ class _FlutterSupportChatConversationState
           StreamBuilder<DocumentSnapshot<SupportChat>>(
             stream: widget.firestoreInstance
                 .collection(
-                  widget.supportSection,
+                   widget.supportSection,
                 )
                 .doc(widget.id)
                 .withConverter<SupportChat>(
