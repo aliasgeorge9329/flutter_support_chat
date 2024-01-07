@@ -16,6 +16,7 @@ class FlutterSupportChatConversation extends StatefulWidget {
   /// Ids can be Email or FirebaseUsersIds
   /// This Ids are able to view all Cases.
   final List<String> supporterID;
+  final String supportSection;
 
   /// `currentID` is a required ID.
   /// Id can be Email or FirebaseUsersId
@@ -55,6 +56,7 @@ class FlutterSupportChatConversation extends StatefulWidget {
     required this.id,
     required this.back,
     required this.supporterID,
+    required this.supportSection,
     required this.currentID,
     required this.firestoreInstance,
     required this.onNewCaseText,
@@ -74,10 +76,8 @@ class _FlutterSupportChatConversationState
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: (b) {
-        if (b) widget.back();
-      },
+    return WillPopScope(
+      onWillPop: () => widget.back(),
       child: Stack(
         children: <Widget>[
           Positioned(
@@ -93,7 +93,7 @@ class _FlutterSupportChatConversationState
           StreamBuilder<DocumentSnapshot<SupportChat>>(
             stream: widget.firestoreInstance
                 .collection(
-                  'flutter_support_chat',
+                  widget.supportSection,
                 )
                 .doc(widget.id)
                 .withConverter<SupportChat>(
@@ -136,6 +136,7 @@ class _FlutterSupportChatConversationState
             firestoreInstance: widget.firestoreInstance,
             id: widget.id,
             supporterID: widget.supporterID,
+            supportSection: widget.supportSection,
             writeMessageText: widget.writeMessageText,
             onNewMessageCreated: widget.onNewMessageCreated,
             deviceInfos: widget.deviceInfos,
