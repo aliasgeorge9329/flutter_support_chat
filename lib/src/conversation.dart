@@ -1,8 +1,15 @@
+library flutter_support_chat;
+
+// Flutter imports:
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_support_chat/src/text_message.dart';
+import 'chat_header.dart';
 import 'model/chat.dart';
-import 'model/message.dart';
-import 'model/state.dart';
+import 'send_message.dart';
+
 
 /// `FlutterSupportChatMessageSend` is should only used in FlutterSupportChat.
 class FlutterSupportChatMessageSend extends StatefulWidget {
