@@ -1,4 +1,3 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'model/chat.dart';
@@ -51,14 +50,41 @@ class FlutterSupportChatCreateNewCase extends StatelessWidget {
     return Card(
       child: ListTile(
         onTap: () async {
-          var result = await showTextInputDialog(
+          var result;
+          await showDialog<void>(
             context: context,
-            title: "A short description for the case",
-            textFields: [
-              DialogTextField(
-                hintText: "e.g. Push Notification Issue",
-              ),
-            ],
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('A short description for the case'),
+                content: TextField(
+                  onChanged: (value) {
+                    result = value;
+                  },
+                  decoration: InputDecoration(hintText: "Enter title for the issue"),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    child: const Text('Cancel'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      return;
+                    },
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      textStyle: Theme.of(context).textTheme.labelLarge,
+                    ),
+                    child: const Text('Ok'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
           );
           if (result == null) {
             return;
@@ -67,7 +93,7 @@ class FlutterSupportChatCreateNewCase extends StatelessWidget {
             id: '',
             requester: currentID,
             createTimestamp: Timestamp.now(),
-            title: result.first,
+            title: result,
             messages: [
               SupportChatMessage(
                   content: onNewCaseText,
