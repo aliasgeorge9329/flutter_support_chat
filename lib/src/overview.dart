@@ -1,7 +1,6 @@
 library flutter_support_chat;
 
 // Flutter imports:
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'model/chat.dart';
@@ -163,11 +162,45 @@ class _FlutterSupportChatOverviewState
                               if (chat.state == SupportCaseState.closed) {
                                 return;
                               }
-                              var result = await showOkCancelAlertDialog(
+
+                              bool result = false;
+                              await showDialog<void>(
                                 context: context,
-                                title: widget.closeCaseText,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text(
+                                        'Are you Sure to close this thread'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge,
+                                        ),
+                                        child: const Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          return;
+                                        },
+                                      ),
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .labelLarge,
+                                        ),
+                                        child: const Text('Close'),
+                                        onPressed: () {
+                                          result = true;
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
                               );
-                              if (result == OkCancelResult.ok) {
+
+                              if (result) {
                                 final SupportChat c = SupportChat.fromFireStore(
                                   await widget.firestoreInstance
                                       .collection(
