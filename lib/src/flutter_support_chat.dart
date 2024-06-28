@@ -79,6 +79,7 @@ class FlutterSupportChat extends StatefulWidget {
   /// `collectDeviceData`
   /// whith this bool parameter you can collect data about the device
   final bool collectDeviceData;
+  final bool showTitleInsideChat;
 
   const FlutterSupportChat({
     Key? key,
@@ -93,6 +94,7 @@ class FlutterSupportChat extends StatefulWidget {
     this.onNewCaseCreated,
     this.onNewMessageCreated,
     this.collectDeviceData = true,
+    this.showTitleInsideChat = false,
   }) : super(key: key);
   @override
   _FlutterSupportChatState createState() => _FlutterSupportChatState();
@@ -174,6 +176,7 @@ class _FlutterSupportChatState extends State<FlutterSupportChat> {
               writeMessageText: widget.writeMessageText,
               onNewMessageCreated: widget.onNewMessageCreated ?? (_) {},
               deviceInfos: deviceInfos,
+              showTitleInsideChat: widget.showTitleInsideChat,
             )
           : FlutterSupportChatOverview(
               selectCase: (id) {
