@@ -50,6 +50,7 @@ class FlutterSupportChatConversation extends StatefulWidget {
   final Function(SupportChat) onNewMessageCreated;
 
   final String deviceInfos;
+  final bool showTitleInsideChat;
 
   const FlutterSupportChatConversation({
     Key? key,
@@ -64,6 +65,7 @@ class FlutterSupportChatConversation extends StatefulWidget {
     required this.writeMessageText,
     required this.onNewMessageCreated,
     required this.deviceInfos,
+    this.showTitleInsideChat = false,
   }) : super(key: key);
   @override
   _FlutterSupportChatConversationState createState() =>
@@ -112,6 +114,35 @@ class _FlutterSupportChatConversationState
                 Duration(milliseconds: 100),
                 () => _controller.jumpTo(_controller.position.maxScrollExtent),
               );
+
+                if (widget.showTitleInsideChat) {
+                return Container(
+                  margin: EdgeInsets.fromLTRB(0, 70, 0, 70),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text("Title"),
+                        subtitle: Text(data.title),
+                      ),
+                      Expanded(
+                        child: Scrollbar(
+                          child: ListView.builder(
+                            itemCount: data.messages.length,
+                            controller: _controller,
+                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                            itemBuilder: (context, index) {
+                              return TextMessage(
+                                data.messages[index],
+                                currentID: widget.currentID,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
               return Container(
                 margin: EdgeInsets.fromLTRB(0, 70, 0, 70),
                 child: Scrollbar(
@@ -129,6 +160,7 @@ class _FlutterSupportChatConversationState
                   ),
                 ),
               );
+              }
             },
           ),
           FlutterSupportChatMessageSend(
