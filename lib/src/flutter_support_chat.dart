@@ -4,7 +4,6 @@ library flutter_support_chat;
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_support_chat/src/model/chat.dart';
@@ -104,53 +103,6 @@ class _FlutterSupportChatState extends State<FlutterSupportChat> {
   String deviceInfos = "platform unknown";
   @override
   void initState() {
-    if (widget.collectDeviceData) {
-      if (kIsWeb) {
-        DeviceInfoPlugin().webBrowserInfo.then((value) {
-          deviceInfos =
-              "${value.vendor} ${value.language} ${value.deviceMemory}Gb ${value.userAgent}";
-          setState(() {});
-        });
-      } else if (Platform.isAndroid) {
-        DeviceInfoPlugin().androidInfo.then(
-          (value) {
-            deviceInfos =
-                "${value.brand}, ${value.model}, ${value.version.sdkInt}, ${value.version.securityPatch} ${value.version.release}";
-            setState(() {});
-          },
-        );
-      } else if (Platform.isIOS) {
-        DeviceInfoPlugin().iosInfo.then(
-          (value) {
-            deviceInfos =
-                "iOS ${value.systemVersion} ${value.utsname.machine}, ${value.model}";
-            setState(() {});
-          },
-        );
-      } else if (Platform.isLinux) {
-        DeviceInfoPlugin().linuxInfo.then(
-          (value) {
-            deviceInfos = "${value.prettyName}";
-            setState(() {});
-          },
-        );
-      } else if (Platform.isMacOS) {
-        DeviceInfoPlugin().macOsInfo.then(
-          (value) {
-            deviceInfos =
-                "macOS ${value.osRelease} ${value.model} ${value.arch} ";
-            setState(() {});
-          },
-        );
-      } else if (Platform.isWindows) {
-        DeviceInfoPlugin().windowsInfo.then(
-          (value) {
-            deviceInfos = "${value.productName} ${value.displayVersion}";
-            setState(() {});
-          },
-        );
-      }
-    }
     super.initState();
   }
 
